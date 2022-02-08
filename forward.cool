@@ -1,0 +1,21 @@
+
+ 86400
+@   IN  SOA     masterdns.unixmen.local. root.unixmen.local. (
+        2011071001  ;Serial
+        3600        ;Refresh
+        1800        ;Retry
+        604800      ;Expire
+        86400       ;Minimum TTL
+)
+@       IN  NS          example1.
+@       IN  NS          example2.
+@       IN  A           192.168.1.1
+@       IN  A           192.168.1.2
+@       IN  A           192.168.1.3
+DNS1	        IN  A   192.168.1.4
+DNS2            IN  A   192.168.1.5
+DNS3            IN  A   192.168.1.6
+DNS4            IN  A   192.168.1.7
+DNS5            IN  A   192.168.1.8
+DNS6            IN  A   192.168.1.9
+
