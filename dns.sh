@@ -125,8 +125,8 @@ fi
 #----Build-Reverse-Zone----#
 
 echo "Your IP is: " $IPADDR
-IP=$(IFS=. ; set -- $IPADDR)
-ENDIP=$(echo $IP | cut -d " " -f 4)
+IFS=. ; set -- $IPADDR
+ENDIP=$(echo $IPADDR | cut -d " " -f 4)
 
 
 
@@ -146,12 +146,14 @@ $TTL 86400
         604800      ;Expire
         86400       ;Minimum TTL
 )
-@       IN  NS          exmaple.awsome.net1.
+@       IN  NS          example.awsome.net1.
 @       IN  NS          example.awsome.net2.
 @       IN  PTR         awsome.net.
 STARTDNS1          IN  A   FULLIP1
 STARTDNS2          IN  A   FULLIP2
-STARTDNS2          IN  A   FULLIP3
+STARTDNS3          IN  A   FULLIP3
+STARTDNS4          IN  A   FULLIP4
+STARTDNS5          IN  A   FULLIP5
 ENDIP1     IN  PTR         DNSNAME1.
 ENDIP2     IN  PTR         DNSNAME2.
 ENDIP3     IN  PTR         DNSNAME3.
@@ -163,33 +165,48 @@ EOF
 
 
 read -p "Choose FQDN-I.E: cool.bobba.net: " VAR22
-read -p "Choose NameServer1  FQDN I.E ns1.cool.net: " VAR21
-read -p "Choose NameServer2  FQDN I.E ns2.cool.net: " VAR31
-sed -i "s/example\.awsome.net1\./$VAR21\./g" /var/named/reverse.$VAR1
-sed -i "s/example\.awsome.net2\./$VAR31\./g" /var/named/reverse.$VAR1
+sed -i "s/example\.awsome.net1\./$VAR2\./g" /var/named/reverse.$VAR1
+sed -i "s/example\.awsome.net2\./$VAR3\./g" /var/named/reverse.$VAR1
 sed -i "s/example1\.net/$VAR22/g"    /var/named/reverse.$VAR1
 sed -i "s/root\.example\.local/root\.$VAR4/g" /var/named/reverse.$VAR1
-sed -i "s/awsome\.net/\.$VAR4/g" /var/named/reverse.$VAR1
+sed -i "s/awsome\.net/$VAR4/g" /var/named/reverse.$VAR1
 
-echo "Enter IP Address for your FQDN: "
-read IPADDR
-validateIP $IPADDR
-if [[ $? -ne 0 ]];then
-  echo "Invalid IP Address ($IPADDR)"
-else
-  echo "$IPADDR is a Perfect IP Address"
 
-for num in {1..3}
+for num in {1..5}
         do
         echo "DNSIP$num have been added"
         sed -i "s/FULLIP$num/$IPADDR/g" /var/named/reverse.$VAR1
+
 done
-fi
+
+
+for num in {1..5}
+do
+ echo "DNSNAME$num has been added..."
+ sed -i "s/DNSNAME$num/$DNSNAME.$VAR4/g" /var/named/reverse.$VAR1
+done
+
 
 for num2 in {1..5}
 do
 	echo "ENDIP$num2 has been added"
 	sed -i "s/ENDIP$num2/$ENDIP/g" /var/named/reverse.$VAR1
 done
+
+
+for var1 in {1..5}
+do
+read -p "ENTER DNS FIRST NAME OF DNS ONLY I.E www.gamespot.com, write WWW ONLY: " DNSNAME
+
+if [ -z $DNSNAME ]
+then
+        echo "Please Enter a FQDN..."
+else
+ echo "STARTDNS$var1 has been added..."
+ sed -i "s/STARTDNS$var1/$DNSNAME/g" /var/named/reverse.$VAR1
+fi
+done
+
+
 
 fi
