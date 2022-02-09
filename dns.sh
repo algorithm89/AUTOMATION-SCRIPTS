@@ -77,7 +77,9 @@ read -p "Choose NameServer2  FQDN I.E ns2.cool.net: " VAR3
 sed -i "s/example[0-1]\./$VAR2\./g" /var/named/forward.$VAR1
 sed -i "s/example[2-3]\./$VAR3\./g" /var/named/forward.$VAR1
 sed -i "s/example\.net/$VAR22/g"    /var/named/forward.$VAR1
-sed -i "s/root\.example\.local/root\.$VAR2/g" /var/named/forward.$VAR1
+
+VAR41=$(echo $VAR22  | cut -d"." -f 2,3)
+sed -i "s/root\.example\.local/root\.$VAR41/g" /var/named/forward.$VAR1
 
 
 
@@ -110,7 +112,7 @@ if [ -z $DNSNAME ]
 then
         echo "Please Enter a FQDN..."
 else
- echo DNS$var
+ echo "DNS$var has been added..."
  sed -i "s/DNS$var/$DNSNAME.$VAR4/g" /var/named/forward.$VAR1
 fi
 done
@@ -121,6 +123,12 @@ fi
 
 
 #----Build-Reverse-Zone----#
+
+echo "Your IP is: " $IPADDR
+IP=$(IFS=. ; set -- $IPADDR)
+ENDIP=$(echo $IP | cut -d " " -f 4)
+
+
 
 read -p "Please name your REVERSE DNS file: " VAR1
 
@@ -146,7 +154,42 @@ STARTDNS2          IN  A   FULLIP2
 STARTDNS2          IN  A   FULLIP3
 ENDIP1     IN  PTR         DNSNAME1.
 ENDIP2     IN  PTR         DNSNAME2.
-ENDIP3     IN  PTR         DNSNAME2.
+ENDIP3     IN  PTR         DNSNAME3.
+ENDIP4     IN  PTR         DNSNAME4.
+ENDIP5     IN  PTR         DNSNAME5.
 
 EOF
+
+
+
+read -p "Choose FQDN-I.E: cool.bobba.net: " VAR22
+read -p "Choose NameServer1  FQDN I.E ns1.cool.net: " VAR21
+read -p "Choose NameServer2  FQDN I.E ns2.cool.net: " VAR31
+sed -i "s/example\.awsome.net1\./$VAR21\./g" /var/named/reverse.$VAR1
+sed -i "s/example\.awsome.net2\./$VAR31\./g" /var/named/reverse.$VAR1
+sed -i "s/example1\.net/$VAR22/g"    /var/named/reverse.$VAR1
+sed -i "s/root\.example\.local/root\.$VAR4/g" /var/named/reverse.$VAR1
+sed -i "s/awsome\.net/\.$VAR4/g" /var/named/reverse.$VAR1
+
+echo "Enter IP Address for your FQDN: "
+read IPADDR
+validateIP $IPADDR
+if [[ $? -ne 0 ]];then
+  echo "Invalid IP Address ($IPADDR)"
+else
+  echo "$IPADDR is a Perfect IP Address"
+
+for num in {1..3}
+        do
+        echo "DNSIP$num have been added"
+        sed -i "s/FULLIP$num/$IPADDR/g" /var/named/reverse.$VAR1
+done
+fi
+
+for num2 in {1..5}
+do
+	echo "ENDIP$num2 has been added"
+	sed -i "s/ENDIP$num2/$ENDIP/g" /var/named/reverse.$VAR1
+done
+
 fi
