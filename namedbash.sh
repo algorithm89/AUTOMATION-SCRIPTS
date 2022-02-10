@@ -2,6 +2,27 @@
 
 
 
+
+#----Functions----#
+
+function validateIP()
+ {
+         local ip=$1
+         local stat=1
+         if [[ $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+                OIFS=$IFS
+                IFS='.'
+                ip=($ip)
+                IFS=$OIFS
+                [[ ${ip[0]} -le 255 && ${ip[1]} -le 255 \
+                && ${ip[2]} -le 255 && ${ip[3]} -le 255 ]]
+                stat=$?
+        fi
+        return $stat
+}
+
+
+
 cat << EOF > /etc/named.conf
 //
 // named.conf
@@ -13,14 +34,14 @@ cat << EOF > /etc/named.conf
 //
 
 options {
-    listen-on port 53 { 127.0.0.1; $IP1;}; ### Master DNS IP ###
+    listen-on port 53 { 127.0.0.1; IP1;}; ### Master DNS IP ###
 #    listen-on-v6 port 53 { ::1; };
     directory     "/var/named";
     dump-file     "/var/named/data/cache_dump.db";
     statistics-file "/var/named/data/named_stats.txt";
     memstatistics-file "/var/named/data/named_mem_stats.txt";
-    allow-query     { localhost; $IPRANGE/24;}; ### IP Range ###
-    allow-transfer{ localhost; $IPSLAVE; };   ### Slave DNS IP ###
+    allow-query     { localhost; IPRANGE/24;}; ### IP Range ###
+    allow-transfer{ localhost; IPSLAVE; };   ### Slave DNS IP ###
 
     /*
      - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.
@@ -59,14 +80,14 @@ zone "." IN {
     file "named.ca";
 };
 
-zone "unixmen.local" IN {
+zone "DNSNAME" IN {
 type master;
-file "forward.unixmen";
+file "forward.VAR1";
 allow-update { none; };
 };
-zone "1.168.192.in-addr.arpa" IN {
+zone "REV3.REV2.REV1.in-addr.arpa" IN {
 type master;
-file "reverse.unixmen";
+file "reverse.VAR2";
 allow-update { none; };
 };
 
@@ -74,6 +95,33 @@ include "/etc/named.rfc1912.zones";
 include "/etc/named.root.key";
 EOF
 
+echo "Your IP is: " $IP1
+IFS=. ; set -- $IP1
+
+REVIP1=$(echo $IP1 | cut -d " " -f 4)
+REVIP2=$(echo $IP1 | cut -d " " -f 2)
+REVIP3=$(echo $IP1 | cut -d " " -f 1)
+
+
+read -p "" IP1
+validateIP $IP1
+
+
+
+read -p "Please Enter IP range: "   IPRANGE
+validateIP $IPRANGE
+
+
+read -p "Please Enter Slave IP: "   IPSLAVE
+validateIP $IPSLAVE
+
+sed "s/"
+sed "s/"
+sed "s/"
+
+sed "s/"
+sed "s/"
+sed "s/"
 
 
 

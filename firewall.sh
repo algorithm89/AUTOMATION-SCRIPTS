@@ -21,7 +21,6 @@ firewall-cmd --direct --add-rule ipv4 filter FORWARD 0 -i $int1 -o $int2 -m stat
 firewall-cmd --permanent --add-port=53/tcp --zone=internal
 firewall-cmd --permanent --add-port=53/udp --zone=internal
 
-firewall-cmd --zone=internal --permanent --add-port={6443,2379,2380,10250,10251,10252}/tcp
 
 
 
