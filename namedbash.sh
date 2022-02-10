@@ -85,7 +85,7 @@ type master;
 file "forward.VAR1";
 allow-update { none; };
 };
-zone "REV3.REV2.REV1.in-addr.arpa" IN {
+zone "REV1.REV2.REV3.in-addr.arpa" IN {
 type master;
 file "reverse.VAR1";
 allow-update { none; };
@@ -95,6 +95,10 @@ include "/etc/named.rfc1912.zones";
 include "/etc/named.root.key";
 EOF
 
+read -p "Enter IP for your DNS: " IP1
+validateIP $IP1
+
+read -p "Enter dns name but only this part I.E gamespot.com: " DNSNAME
 echo "Your IP is: " $IP1
 IFS=. ; set -- $IP1
 
@@ -103,10 +107,7 @@ REVIP2=$(echo $IP1 | cut -d " " -f 2)
 REVIP3=$(echo $IP1 | cut -d " " -f 1)
 
 
-read -p "Enter IP for your DNS: " IP1
-validateIP $IP1
 
-read -p "Enter dns name but only this part I.E gamespot.com: " DNSNAME
 
 read -p "Please Enter IP range I.E 192.168.1.0: "   IPRANGE
 validateIP $IPRANGE
@@ -115,13 +116,18 @@ validateIP $IPRANGE
 read -p "Please Enter Slave IP: "   IPSLAVE
 validateIP $IPSLAVE
 
-sed "s/IP1/$IP1/g"
-sed "s/IPRANGE/$IPRANGE/g"
-sed "s/IPSLAVE/$IPSLAVE/g"
+sed -i "s/IP1/$IP1/g" /etc/named.conf
+sed -i "s/IPRANGE/$IPRANGE/g" /etc/named.conf
+sed -i "s/IPSLAVE/$IPSLAVE/g" /etc/named.conf
 
-sed "s/"
-sed "s/"
-sed "s/"
+
+
+sed -i "s/DNSNAME/$DNSNAME/g" /etc/named.conf
+NAME=$(echo '$DNSNAME'  | sed "s/\.net//g')
+sed -i "s/VAR1/$NAME/g"   /etc/named.conf
+sed -i "s/REV2/$REVIP2/g" /etc/named.conf
+sed -i "s/REV3/$REVIP3/g" /etc/named.conf
+sed -i "s/REV1/$REVIP1/g" /etc/named.conf
 
 
 

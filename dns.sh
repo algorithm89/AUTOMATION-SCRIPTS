@@ -254,9 +254,9 @@ read -p "ENTER IP INTERNAL: " IP1
 read -p "ENTER IP OF DEFAULT GATEWAY: " IP2 
 
 
-sed "s/DNSNAMESERVER/$VAR4/g"  /etc/resolv.conf
-sed "s/DNSIP1/$IP1/g"          /etc/resolv.conf
-sed "s/ROUTERIP/$IP2/g"        /etc/resolv.conf
+sed -i "s/DNSNAMESERVER/$VAR4/g"  /etc/resolv.conf
+sed -i "s/DNSIP1/$IP1/g"          /etc/resolv.conf
+sed -i "s/ROUTERIP/$IP2/g"        /etc/resolv.conf
 
 
 chattr +i /etc/resolv.conf
