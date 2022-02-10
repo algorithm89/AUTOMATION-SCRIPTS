@@ -87,7 +87,7 @@ allow-update { none; };
 };
 zone "REV3.REV2.REV1.in-addr.arpa" IN {
 type master;
-file "reverse.VAR2";
+file "reverse.VAR1";
 allow-update { none; };
 };
 
@@ -103,21 +103,21 @@ REVIP2=$(echo $IP1 | cut -d " " -f 2)
 REVIP3=$(echo $IP1 | cut -d " " -f 1)
 
 
-read -p "" IP1
+read -p "Enter IP for your DNS: " IP1
 validateIP $IP1
 
+read -p "Enter dns name but only this part I.E gamespot.com: " DNSNAME
 
-
-read -p "Please Enter IP range: "   IPRANGE
+read -p "Please Enter IP range I.E 192.168.1.0: "   IPRANGE
 validateIP $IPRANGE
 
 
 read -p "Please Enter Slave IP: "   IPSLAVE
 validateIP $IPSLAVE
 
-sed "s/"
-sed "s/"
-sed "s/"
+sed "s/IP1/$IP1/g"
+sed "s/IPRANGE/$IPRANGE/g"
+sed "s/IPSLAVE/$IPSLAVE/g"
 
 sed "s/"
 sed "s/"

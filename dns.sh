@@ -259,4 +259,6 @@ sed "s/DNSIP1/$IP1/g"          /etc/resolv.conf
 sed "s/ROUTERIP/$IP2/g"        /etc/resolv.conf
 
 
+chattr +i /etc/resolv.conf
+systemctl restart named
 
