@@ -157,8 +157,8 @@ $TTL 86400
 @       IN  NS          example.awsome.net1.
 @       IN  NS          example.awsome.net2.
 @       IN  PTR         awsome.net.
-NS11               IN  A   FULLIP1
-NS22               IN  A   FULLIP2
+ns1                IN  A   FULLIP1
+ns2                IN  A   FULLIP2
 STARTDNS1          IN  A   FULLIP3
 STARTDNS2          IN  A   FULLIP4
 STARTDNS3          IN  A   FULLIP5
@@ -181,8 +181,8 @@ sed -i "s/example1\.net/$VAR22/g"    /var/named/reverse.$VAR1
 sed -i "s/root\.example\.local/root\.$VAR4/g" /var/named/reverse.$VAR1
 sed -i "s/awsome\.net/$VAR4/g" /var/named/reverse.$VAR1
 
-sed -i "s/NS1/$VAR2/g" /var/named/reverse.$VAR1
-sed -i "s/NS2/$VAR3/g" /var/named/reverse.$VAR1
+sed -i "s/ns1/$VAR2/g" /var/named/reverse.$VAR1
+sed -i "s/ns2/$VAR3/g" /var/named/reverse.$VAR1
 
 for num in {1..7}
         do
@@ -227,8 +227,8 @@ echo $VAR4
 read -p "Put your Internal Interface: " INT
 
 firewall-cmd --change-interface=$INT --zone=internal --permanent
-firewall-cmd --permanent --add-port=53/tcp --zone=internel --permanent
-firewall-cmd --permanent --add-port=53/udp --zone=internel --permanent
+firewall-cmd --permanent --add-port=53/tcp --zone=internal --permanent
+firewall-cmd --permanent --add-port=53/udp --zone=internal --permanent
 firewall-cmd --reload
 
 chgrp named -R /var/named
