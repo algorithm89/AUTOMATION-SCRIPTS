@@ -1,8 +1,6 @@
 #!/bin/bash
 
 
-
-
 #----Functions----#
 
 function validateIP()
@@ -123,8 +121,9 @@ sed -i "s/IPSLAVE/$IPSLAVE/g" /etc/named.conf
 
 
 sed -i "s/DNSNAME/$DNSNAME/g" /etc/named.conf
-NAME=$(echo '$DNSNAME'  | sed "s/\.net//g')
-sed -i "s/VAR1/$NAME/g"   /etc/named.conf
+NAME1=$(echo "$DNSNAME"  | sed "s/\.net//g")
+
+sed -i "s/VAR1/$NAME1/g"   /etc/named.conf
 sed -i "s/REV2/$REVIP2/g" /etc/named.conf
 sed -i "s/REV3/$REVIP3/g" /etc/named.conf
 sed -i "s/REV1/$REVIP1/g" /etc/named.conf
