@@ -181,8 +181,8 @@ sed -i "s/example1\.net/$VAR22/g"    /var/named/reverse.$VAR1
 sed -i "s/root\.example\.local/root\.$VAR4/g" /var/named/reverse.$VAR1
 sed -i "s/awsome\.net/$VAR4/g" /var/named/reverse.$VAR1
 
-sed -i "s/ns1/$VAR2/g" /var/named/reverse.$VAR1
-sed -i "s/ns2/$VAR3/g" /var/named/reverse.$VAR1
+sed -i "s/ns1/$ns1/g" /var/named/reverse.$VAR1
+sed -i "s/ns2/$ns2/g" /var/named/reverse.$VAR1
 
 for num in {1..7}
         do
@@ -241,14 +241,13 @@ read -p "ENTER THE DNS NAME WITHOUTH THE FIRST i.e gamespot.com: " VAR55
 
 named-checkconf /etc/named.conf
 
-named-checkzone $VAR55  /var/named/forward.$VAR1
-named-checkzone $VAR55  /var/named/reverse.$VAR1
+echo "Paste Commands to Check Zones:"
+echo "named-checkzone $VAR55  /var/named/forward.$VAR1"
+echo "named-checkzone $VAR55  /var/named/reverse.$VAR1"
 
 
 #----RESOLVER----#
 
-VAR44=$(echo $VAR22  | cut -d"." -f 2,3)
-echo $VAR44
 
 chattr -i /etc/resolv.conf
 
@@ -272,6 +271,7 @@ sed -i "s/ROUTERIP/$IP2/g"        /etc/resolv.conf
 
 chattr +i /etc/resolv.conf
 systemctl restart named
-nslookup $VAR55
+echo "nslookup $VAR55"
+echo "dig $VAR55"
 
 
