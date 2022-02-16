@@ -11,7 +11,7 @@ read -p "What user is logged into this VM?:" USER1
 
 echo $USER1
 
-STR=$(ls -la /run/media/$USER | awk 'FNR == 4 {print $9}')
+STR=$(ls -la /run/media/$USER1 | awk 'FNR == 4 {print $9}')
 echo $STR
 
 SUB="VBox"
