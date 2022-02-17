@@ -17,7 +17,17 @@ python3 -V
 
 #---Instal-Java---#
 
-sudo dnf install java-17-openjdk-devel
+sudo yum -y install  java-11-openjdk java-11-openjdk-devel
 java -version
 
+sudo tee /etc/profile.d/java11.sh <<EOF
 
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+export PATH=\$PATH:\$JAVA_HOME/bin
+
+EOF
+source /etc/profile.d/java11.sh
+echo $JAVA_HOME
+
+update-alternatives --config java
+java --version
