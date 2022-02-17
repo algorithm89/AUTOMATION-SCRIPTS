@@ -17,14 +17,43 @@ python3 -V
 
 #---Instal-Java---#
 
-sudo dnf install java-17-openjdk-devel
-java -version
+sudo yum -y install  java-11-openjdk java-11-openjdk-devel
+
+sudo tee /etc/profile.d/java11.sh <<EOF
+
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+export PATH=\$PATH:\$JAVA_HOME/bin
+
+EOF
+source /etc/profile.d/java11.sh
+echo $JAVA_HOME
 
 #---Install-Jenkins---#
-# sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
-# sudo dnf install jenkins
-# sudo systemctl start jenkins
-# sudo systemctl enable jenkins
-# sudo firewall-cmd --permanent --zone=internal --add-port=8080/tcp
-# sudo firewall-cmd --reload
+sudo yum remove jenkins -y
+
+cat << EOF > /etc/yum.repos.d/jenkins.repo
+ 
+[jenkins]
+
+name=Jenkins-stable
+
+baseurl=http://pkg.jenkins.io/redhat
+
+gpgcheck=1
+
+EOF
+echo "CHOOSE JAVA 11 or 8, NOT 17!"
+
+ update-alternatives --config java
+
+ sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+
+
+ sudo dnf install jenkins
+ java --version
+ sudo systemctl enable jenkins
+ sudo systemctl restart jenkins
+ sudo firewall-cmd --permanent --zone=internal --add-port=8080/tcp
+ sudo firewall-cmd --reload
+ 
 

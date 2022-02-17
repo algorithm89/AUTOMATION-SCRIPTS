@@ -17,11 +17,12 @@ else
 mkdir /home/$user1/easy-rsa
 ln -s /usr/share/easy-rsa/* /home/$user1/easy-rsa/
 ls -la /home/$user1/easy-rsa
-sudo chown -R devops:devops /home/$user1/easy-rsa
 
 read -p "Please choose a version Above: " V1
 
 chmod 700 /home/$user1/easy-rsa/$V1
+
+sudo chown -R devops:devops /home/$user1/easy-rsa/$V1
 
 
 fi
@@ -41,7 +42,7 @@ set_var EASYRSA_DIGEST         "sha512"
 
 
 EOF
-sudo chown -R devops:devops /home/$user1/$V1/easy-rsa
+sudo chown -R devops:devops /home/$user1/easy-rsa/$V1
 
 #----CA-GEN----#
 
@@ -134,7 +135,7 @@ sed -i "s/name1/$DNSNAME/g" ./san.cnf
 openssl req -new -out ./bubliks.csr -newkey rsa:2048 -nodes -sha256 -keyout bubliks.key -config san.cnf
 openssl req -text -noout -verify -in ./bubliks.csr
 
-sudo chown -R devops:devops .*
+sudo chown -R devops:devops /home/$user1/easy-rsa
 
 #---SIGN-CSR---#
 
@@ -142,4 +143,5 @@ sudo chown -R devops:devops .*
 ./easyrsa sign-req server bubliks-server
 
 
+sudo chown -R devops:devops /home/$user1/easy-rsa/$V1/pki
 
