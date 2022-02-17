@@ -118,12 +118,10 @@ read -p "Please Enter IP range I.E 192.168.1.0: "   IPRANGE
 validateIP $IPRANGE
 
 
-read -p "Please Enter Slave IP: "   IPSLAVE
-validateIP $IPSLAVE
 
 sed -i "s/IP1/$IP1/g" /etc/named.conf
 sed -i "s/IPRANGE/$IPRANGE/g" /etc/named.conf
-sed -i "s/IPSLAVE/$IPSLAVE/g" /etc/named.conf
+sed -i "s/IPSLAVE/$IP2/g" /etc/named.conf
 
 
 
