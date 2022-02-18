@@ -18,39 +18,33 @@ python3 -V
 #---Instal-Java---#
 
 sudo yum -y install  java-11-openjdk java-11-openjdk-devel
+sudo dnf install java-1.8.0-openjdk-devel
 
-sudo tee /etc/profile.d/java11.sh <<EOF
 
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
-export PATH=\$PATH:\$JAVA_HOME/bin
-
-EOF
-source /etc/profile.d/java11.sh
 echo $JAVA_HOME
 
 #---Install-Jenkins---#
 sudo yum remove jenkins -y
 
-cat << EOF > /etc/yum.repos.d/jenkins.repo
- 
-[jenkins]
+wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 
-name=Jenkins-stable
+read -p "USER again Please" user1
 
-baseurl=http://pkg.jenkins.io/redhat
+sudo cp -r /home/$user1/Downloads/ninja.svg  /var/cache/jenkins/war/images/jenkins.svg
 
-gpgcheck=1
+chown -R jenkins:jenkins /var/cache/jenkins/war/images/jenkins.svg
 
-EOF
 echo "CHOOSE JAVA 11 or 8, NOT 17!"
 
  update-alternatives --config java
 
  sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+ sudo yum --showduplicates list jenkins | expand
 
-
- sudo dnf install jenkins
- java --version
+ read -p "Choose a version of jenkins just the version:" VER
+ sudo yum install jenkins-$VER
+ java -version
  sudo systemctl enable jenkins
  sudo systemctl restart jenkins
  sudo firewall-cmd --permanent --zone=internal --add-port=8080/tcp
@@ -59,7 +53,10 @@ echo "CHOOSE JAVA 11 or 8, NOT 17!"
 #----INSTALL-ANSIBLE---#
 
 read -p "username please: " user1
-pip3.9 install ansible
+
+rm -rf /usr/bin/ansible && rm -rf /usr/bin/ansible-playbook
+
+runuser -l $user1 -c 'pip3.9 install ansible'
 
 sudo ln -s /home/$user1/.local/bin/ansible /usr/bin/ansible
 sudo ln -s /home/$user1/.local/bin/ansible-playbook /usr/bin/ansible-playbook

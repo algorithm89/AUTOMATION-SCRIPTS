@@ -50,9 +50,9 @@ keytool -importkeystore -srckeystore jenkins.p12 \
 -destalias studio.bubliks.net
 
 
-sudo sed -i 's/JENKINS_PORT="8080"/JENKINS_PORT="-1"/g' /etc/sysconfig/jenkins 
-sudo sed -i 's/JENKINS_HTTPS_KEYSTORE=""/JENKINS_HTTPS_KEYSTORE="/var/lib/jenkins/security/jenkins.jks"/g' /etc/sysconfig/jenkins
-sudo sed -i 's/JENKINS_HTTPS_KEYSTORE_PASSWORD=""/JENKINS_HTTPS_KEYSTORE_PASSWORD="toor89/g"' /etc/sysconfig/jenkins 
+sudo sed -i "s/JENKINS_HTTPS_KEYSTORE=\"\"/JENKINS_HTTPS_KEYSTORE=\"\/var\/lib\/jenkins\/security\/jenkins.jks\"/g" /etc/sysconfig/jenkins
+sudo sed -i "s/JENKINS_HTTPS_KEYSTORE_PASSWORD=\"\"/JENKINS_HTTPS_KEYSTORE_PASSWORD=\"toor89\"/g" /etc/sysconfig/jenkins 
+sudo sed -i "s/JENKINS_HTTPS_PORT=\"\"/JENKINS_HTTPS_PORT=\"8443\"/g" /etc/sysconfig/jenkins 
 
-
+sudo chown -R jenkins:jenkins /var/lib/jenkins/security
 
