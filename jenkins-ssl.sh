@@ -43,3 +43,16 @@ keytool -list -v -keystore jenkins.p12 -storepass toor89 \
     -storetype PKCS12
 
 
+keytool -importkeystore -srckeystore jenkins.p12 \
+-srcstorepass 'toor89' -srcstoretype PKCS12 \
+-srcalias studio.bubliks.net -deststoretype JKS \
+-destkeystore jenkins.jks -deststorepass 'toor89' \
+-destalias studio.bubliks.net
+
+
+sudo sed -i 's/JENKINS_PORT="8080"/JENKINS_PORT="-1"/g' /etc/sysconfig/jenkins 
+sudo sed -i 's/JENKINS_HTTPS_KEYSTORE=""/JENKINS_HTTPS_KEYSTORE="/var/lib/jenkins/security/jenkins.jks"/g' /etc/sysconfig/jenkins
+sudo sed -i 's/JENKINS_HTTPS_KEYSTORE_PASSWORD=""/JENKINS_HTTPS_KEYSTORE_PASSWORD="toor89/g"' /etc/sysconfig/jenkins 
+
+
+
