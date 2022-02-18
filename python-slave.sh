@@ -31,3 +31,13 @@ echo $JAVA_HOME
 
 update-alternatives --config java
 java --version
+
+
+#----INSTALL-ANSIBLE---#
+
+read -p "username please: " user1
+pip3.9 install ansible
+
+sudo ln -s /home/$user1/.local/bin/ansible /usr/bin/ansible
+sudo ln -s /home/$user1/.local/bin/ansible-playbook /usr/bin/ansible-playbook
+

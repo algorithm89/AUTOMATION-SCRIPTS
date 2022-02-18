@@ -56,4 +56,15 @@ echo "CHOOSE JAVA 11 or 8, NOT 17!"
  sudo firewall-cmd --permanent --zone=internal --add-port=8080/tcp
  sudo firewall-cmd --reload
  
+#----INSTALL-ANSIBLE---#
+
+read -p "username please: " user1
+pip3.9 install ansible
+
+sudo ln -s /home/$user1/.local/bin/ansible /usr/bin/ansible
+sudo ln -s /home/$user1/.local/bin/ansible-playbook /usr/bin/ansible-playbook
+
+
+
+
 
