@@ -29,11 +29,8 @@ sudo yum remove jenkins -y
 wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
 sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 
-read -p "USER again Please" user1
+read -p "USER again Please: " user1
 
-sudo cp -r /home/$user1/Downloads/ninja.svg  /var/cache/jenkins/war/images/jenkins.svg
-
-chown -R jenkins:jenkins /var/cache/jenkins/war/images/jenkins.svg
 
 echo "CHOOSE JAVA 11 or 8, NOT 17!"
 
@@ -61,6 +58,17 @@ runuser -l $user1 -c 'pip3.9 install ansible'
 sudo ln -s /home/$user1/.local/bin/ansible /usr/bin/ansible
 sudo ln -s /home/$user1/.local/bin/ansible-playbook /usr/bin/ansible-playbook
 
+
+
+
+cd /home/$user1/DEVOPS/AUTOMATION-SCRIPTS
+pwd
+sudo cp -r ./jenkimages/simple-page.theme.css  /var/cache/jenkins/war/css/simple-page.theme.css
+sudo cp -r ./jenkimages/ninja.png  /var/cache/jenkins/war/images/ninja.png
+sudo cp -r ./jenkimages/*.png  /var/cache/jenkins/war/images/
+
+chown -R jenkins:jenkins /var/cache/jenkins/war/images/*
+chown -R jenkins:jenkins /var/cache/jenkins/war/css/*
 
 
 
