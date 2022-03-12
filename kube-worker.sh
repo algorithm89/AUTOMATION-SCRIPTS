@@ -14,8 +14,5 @@ EOF
 
 sudo dnf remove kubernetes* kubelet* -y
 dnf upgrade -y
-dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
-systemctl enable kubelet
-systemctl start kubelet
 
 
