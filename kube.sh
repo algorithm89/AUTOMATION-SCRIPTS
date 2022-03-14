@@ -72,7 +72,8 @@ firewall-cmd --reload
 read -p "Please Enter username: "    USER1
 read -p "Please Enter MASTER IP: "   MASTERIP
 validateIP $MASTERIP
-kubeadm init --apiserver-advertise-address=$MASTERIP --v=5
+kubeadm init --apiserver-advertise-address="$MASTERIP" --v=5
+echo "kubeadm init --apiserver-advertise-address='$MASTERIP' --v=5"
 
 
 
@@ -81,6 +82,9 @@ cp -i /etc/kubernetes/admin.conf /home/$USER1/.kube/config
 chown -R $USER1:$USER1 /home/$USER1/.kube/config
 cd /home/$USER1 && chown -R $USER1:$USER1 .kube
 
+mkdir -p /home/$USER/.kube
+cp -i /etc/kubernetes/admin.conf /home/$USER/.kube/config
+chown -R $USER:$USER /home/$USER/.kube/config
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
 
 
