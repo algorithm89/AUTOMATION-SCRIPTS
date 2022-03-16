@@ -1,0 +1,17 @@
+
+---
+
+- name: DIR
+  become: true
+  vars_prompt:
+    - name: FOLDER
+      prompt: "Which folder to look into?"
+      private: no
+           
+
+  hosts: all
+  
+
+  tasks:
+     - name: LS -LA
+       shell: "ls -la {{ FOLDER }}"
