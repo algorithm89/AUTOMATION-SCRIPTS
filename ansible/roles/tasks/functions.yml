@@ -15,3 +15,9 @@
   tasks:
      - name: CHECK CONTENT INSIDE FOLDER1
        shell: "ls -la {{ FOLDER }}"
+       register: var1
+
+     - name:
+       debug:
+         var: var1
+         verbosity: 2
