@@ -13,5 +13,5 @@
   
 
   tasks:
-     - name: CHECK CONTENT INSIDE FOLDER
+     - name: CHECK CONTENT INSIDE FOLDER1
        shell: "ls -la {{ FOLDER }}"
