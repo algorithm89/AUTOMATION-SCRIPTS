@@ -13,3 +13,9 @@
   tasks:
     - name: NSLOOKUP
       shell: "nslookup {{ WEBSITE }} && dig {{WEBSITE}}"
+      register: var1
+
+    - name:
+      debug:
+            var: var1
+            verbosity: 2
