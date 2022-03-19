@@ -1,0 +1,15 @@
+---
+
+
+- name: DIR
+  become: true
+  vars_prompt:
+    - name: WEBSITE
+      prompt: "Which website to nslookup?"
+      private: no
+
+
+  hosts: all
+  tasks:
+    - name: NSLOOKUP
+      shell: "nslookup {{ WEBSITE }} && dig {{WEBSITE}}"
